@@ -47,6 +47,24 @@ public class BinarySearchTree<T extends Comparable<T>> extends AbstractSet<T> im
         }
     }
 
+    private Node<T> findParent(Node<T> node) {
+        Node<T> current = root;
+        Node<T> parent = null;
+        while (current != null) {
+            int comparison = current.value.compareTo(node.value);
+            if (comparison > 0) {
+                parent = current;
+                current = current.left;
+            } else if (comparison < 0) {
+                parent = current;
+                current = current.right;
+            } else {
+                break;
+            }
+        }
+        return parent;
+    }
+
     @Override
     public boolean contains(Object o) {
         @SuppressWarnings("unchecked")
@@ -101,8 +119,55 @@ public class BinarySearchTree<T extends Comparable<T>> extends AbstractSet<T> im
      */
     @Override
     public boolean remove(Object o) {
-        // TODO
-        throw new NotImplementedError();
+        @SuppressWarnings("unchecked")
+        T t = (T) o;
+        if (!contains(o)) {
+            return false;
+        }
+
+        Node<T> node = find(t);
+        Node<T> nodeParent = findParent(node);
+
+        if (node.right == null) {
+            if (node.left != null) {
+                connectParentAndChild(nodeParent, node.left);
+            } else {
+                int comp = nodeParent.value.compareTo(node.value);
+                if (comp > 0) nodeParent.left = null;
+                else nodeParent.right = null;
+            }
+        } else if (node.right.left == null) {
+            node.right.left = node.left;
+            connectParentAndChild(nodeParent, node.right);
+        } else {
+            Node<T> smallest = node.right.left;
+            Node<T> smallestParent = node.right;
+            while (smallest.left != null) {
+                smallestParent = smallest;
+                smallest = smallest.left;
+            }
+            smallestParent.left = smallest.right;
+            smallest.left = node.left;
+            smallest.right = node.right;
+            connectParentAndChild(nodeParent, smallest);
+        }
+        size--;
+        return true;
+    }
+
+    private void connectParentAndChild(Node<T> parent, Node<T> node) {
+        if (parent == null) {
+            root = node;
+        }
+        int comparison = parent.value.compareTo(node.value);
+        if (node.right == null && node.left == null) {
+            node = null;
+        }
+        if (comparison > 0) {
+            parent.left = node;
+        } else {
+            parent.right = node;
+        }
     }
 
     @Nullable
