@@ -53,6 +53,8 @@ public class JavaTasks {
             ArrayList<String> array = new ArrayList<>();
             String line;
             while ((line = bufferedReader.readLine()) != null) {
+                if (!line.matches("^(0[1-9]|1[0-2]):([0-5]\\d):([0-5]\\d) [PA]M$"))
+                    throw new IllegalArgumentException();
                 array.add(line);
             }
 
@@ -128,6 +130,8 @@ public class JavaTasks {
 
             String line;
             while ((line = bufferedReader.readLine()) != null) {
+                if (!line.matches("^[\\wа-яА-ЯЁё]+ [\\wа-яА-ЯЁё]+ - [\\wа-яА-ЯЁё\\-]+ \\d+$"))
+                    throw new IllegalArgumentException();
                 List<String> array = Arrays.asList(line.split(" - "));
                 if (map.get(array.get(1)) != null) {
                     map.put(array.get(1), map.get(array.get(1)) + ", " +  array.get(0));
