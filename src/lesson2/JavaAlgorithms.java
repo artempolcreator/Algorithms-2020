@@ -177,7 +177,6 @@ public class JavaAlgorithms {
     static public int calcPrimesNumber(int limit) {
 
         if (limit <= 1) return 0;
-
         boolean[] isPrime = new boolean[limit + 1];
         Arrays.fill(isPrime, true);
 
@@ -196,7 +195,6 @@ public class JavaAlgorithms {
                 count++;
             }
         }
-
         return count;
     }
 }
