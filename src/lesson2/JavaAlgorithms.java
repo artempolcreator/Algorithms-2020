@@ -10,6 +10,7 @@ import java.util.Arrays;
 
 @SuppressWarnings("unused")
 public class JavaAlgorithms {
+
     /**
      * Получение наибольшей прибыли (она же -- поиск максимального подмассива)
      * Простая
