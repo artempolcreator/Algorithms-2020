@@ -116,6 +116,10 @@ public class BinarySearchTree<T extends Comparable<T>> extends AbstractSet<T> im
      * Спецификация: {@link Set#remove(Object)} (Ctrl+Click по remove)
      *
      * Средняя
+     *
+     * Время: O(Log(n))
+     * Память: O(Log(n))
+     *
      */
     @Override
     public boolean remove(Object o) {
@@ -128,27 +132,26 @@ public class BinarySearchTree<T extends Comparable<T>> extends AbstractSet<T> im
         Node<T> node = find(t);
         Node<T> nodeParent = findParent(node);
 
-        if (node.right == null) {
-            if (node.left != null) {
-                connectParentAndChild(nodeParent, node.left);
-            } else {
-                int comp = nodeParent.value.compareTo(node.value);
-                if (comp > 0) nodeParent.left = null;
-                else nodeParent.right = null;
-            }
-        } else if (node.right.left == null) {
-            node.right.left = node.left;
+        if ((node.right == null) && (node.left == null)) {
+            connectParentAndChild(nodeParent, node);
+        } else if (node.right == null) {
+            connectParentAndChild(nodeParent, node.left);
+        } else if (node.left == null) {
             connectParentAndChild(nodeParent, node.right);
         } else {
-            Node<T> smallest = node.right.left;
-            Node<T> smallestParent = node.right;
+            Node<T> smallestParent = node;
+            Node<T> smallest = node.right;
             while (smallest.left != null) {
                 smallestParent = smallest;
                 smallest = smallest.left;
             }
-            smallestParent.left = smallest.right;
+
+            if (smallest != node.right) {
+                smallestParent.left = smallest.right;
+                smallest.right = node.right;
+            }
+
             smallest.left = node.left;
-            smallest.right = node.right;
             connectParentAndChild(nodeParent, smallest);
         }
         size--;
@@ -158,11 +161,19 @@ public class BinarySearchTree<T extends Comparable<T>> extends AbstractSet<T> im
     private void connectParentAndChild(Node<T> parent, Node<T> node) {
         if (parent == null) {
             root = node;
+            return;
+        }
+        if ((node.right == null) && (node.left == null)) {
+            if (parent.left == node) {
+                parent.left = null;
+                return;
+            }
+            if (parent.right == node) {
+                parent.right = null;
+                return;
+            }
         }
         int comparison = parent.value.compareTo(node.value);
-        if (node.right == null && node.left == null) {
-            node = null;
-        }
         if (comparison > 0) {
             parent.left = node;
         } else {

@@ -108,6 +108,51 @@ abstract class AbstractBinarySearchTreeTest {
 
     protected fun doRemoveTest() {
         implementationTest { create().remove(0) }
+
+        val controlSet1 = mutableSetOf<Int>(58, 31, 32, 38, 9, 29, 37, 0, 95, 72, 25, 89, 39, 76, 41, 34, 5, 1, 10)
+        println("Initial set: $controlSet1")
+        val binarySet = create()
+        for (element in controlSet1) {
+            binarySet += element
+        }
+        controlSet1.remove(5)
+        println("Control set: $controlSet1")
+        val expectedSize = binarySet.size - 1
+        val maxHeight = binarySet.height()
+        println("Removing element 5 from the tree...")
+        assertTrue(
+            binarySet.remove(5),
+            "An element was supposedly not removed from the tree when it should have been."
+        )
+        assertTrue(
+            5 !in binarySet,
+            "The tree contains a supposedly removed element."
+        )
+        assertTrue(
+            binarySet.checkInvariant(),
+            "The binary search tree invariant is false after BinarySearchTree.remove()."
+        )
+        assertTrue(
+            binarySet.height() <= maxHeight,
+            "The tree's height increased after BinarySearchTree.remove()."
+        )
+        assertFalse(
+            binarySet.remove(5),
+            "An element that was already not in the tree was supposedly removed."
+        )
+        assertEquals(
+            expectedSize, binarySet.size,
+            "The size of the tree is incorrect: was ${binarySet.size}, should've been $expectedSize."
+        )
+        for (element in controlSet1) {
+            assertTrue(
+                binarySet.contains(element),
+                "The tree doesn't have the element $element from the control set."
+            )
+        }
+        println("All clear!")
+
+
         val random = Random()
         for (iteration in 1..100) {
             val controlSet = mutableSetOf<Int>()
