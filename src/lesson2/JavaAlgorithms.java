@@ -2,7 +2,6 @@ package lesson2;
 
 import kotlin.NotImplementedError;
 import kotlin.Pair;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
