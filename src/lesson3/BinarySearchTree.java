@@ -195,8 +195,14 @@ public class BinarySearchTree<T extends Comparable<T>> extends AbstractSet<T> im
 
     public class BinarySearchTreeIterator implements Iterator<T> {
 
+        private Stack<Node<T>> stack = new Stack<>();
+
         private BinarySearchTreeIterator() {
-            // Добавьте сюда инициализацию, если она необходима.
+            Node<T> node = root;
+            while (node != null) {
+                stack.push(node);
+                node = node.left;
+            }
         }
 
         /**
@@ -211,8 +217,7 @@ public class BinarySearchTree<T extends Comparable<T>> extends AbstractSet<T> im
          */
         @Override
         public boolean hasNext() {
-            // TODO
-            throw new NotImplementedError();
+            return !stack.isEmpty();
         }
 
         /**
@@ -230,8 +235,17 @@ public class BinarySearchTree<T extends Comparable<T>> extends AbstractSet<T> im
          */
         @Override
         public T next() {
-            // TODO
-            throw new NotImplementedError();
+            if (stack.isEmpty()) throw new IllegalStateException();
+            Node<T> node = stack.pop();
+            goToLeft(node.right);
+            return node.value;
+        }
+
+        private void goToLeft(Node<T> node){
+            if (node != null){
+                stack.push(node);
+                goToLeft(node.left);
+            }
         }
 
         /**
