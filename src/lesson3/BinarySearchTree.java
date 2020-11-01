@@ -118,19 +118,20 @@ public class BinarySearchTree<T extends Comparable<T>> extends AbstractSet<T> im
      * Средняя
      *
      * Время: O(Log(n))
-     * Память: O(Log(n))
+     * Память: S(Log(n))
      *
      */
     @Override
     public boolean remove(Object o) {
         @SuppressWarnings("unchecked")
         T t = (T) o;
-        if (!contains(o)) {
-            return false;
-        }
 
         Node<T> node = find(t);
         Node<T> nodeParent = findParent(node);
+
+        if (node.value != t) {
+            return false;
+        }
 
         if ((node.right == null) && (node.left == null)) {
             connectParentAndChild(nodeParent, node);
@@ -215,6 +216,9 @@ public class BinarySearchTree<T extends Comparable<T>> extends AbstractSet<T> im
          * Спецификация: {@link Iterator#hasNext()} (Ctrl+Click по hasNext)
          *
          * Средняя
+         *
+         * Время: О(1)
+         * Память: О(1)
          */
         @Override
         public boolean hasNext() {
@@ -233,6 +237,9 @@ public class BinarySearchTree<T extends Comparable<T>> extends AbstractSet<T> im
          * Спецификация: {@link Iterator#next()} (Ctrl+Click по next)
          *
          * Средняя
+         *
+         * Время: O(log(n))
+         *
          */
         @Override
         public T next() {

@@ -50,7 +50,7 @@ public class JavaTasks {
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(inputName));
              BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(outputName))) {
 
-            ArrayList<String> array = new ArrayList<>();
+            List<String> array = new ArrayList<>();
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 if (!line.matches("^(0[1-9]|1[0-2]):([0-5]\\d):([0-5]\\d) [PA]M$"))

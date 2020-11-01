@@ -133,7 +133,7 @@ public class JavaAlgorithms {
      * вернуть ту из них, которая встречается раньше в строке first.
      *
      * Время: O(n*m)
-     * Память: S(m)
+     * Память: S(min(n, m))
      */
     static public String longestCommonSubstring(String first, String second) {
         int[][] matrix = new int[first.length()][second.length()];
@@ -171,8 +171,8 @@ public class JavaAlgorithms {
      * Справка: простым считается число, которое делится нацело только на 1 и на себя.
      * Единица простым числом не считается.
      *
-     * O(n*Log(Log(n)))
-     * O(n)
+     * Время: O(n*Log(Log(n)))
+     * Память: S(n)
      */
     static public int calcPrimesNumber(int limit) {
 
