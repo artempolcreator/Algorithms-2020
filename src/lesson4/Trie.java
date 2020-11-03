@@ -92,8 +92,72 @@ public class Trie extends AbstractSet<String> implements Set<String> {
     @NotNull
     @Override
     public Iterator<String> iterator() {
-        // TODO
-        throw new NotImplementedError();
+        return new TrieIterator();
+    }
+
+    public class TrieIterator implements Iterator<String> {
+
+        private final Stack<String> stack = new Stack<>();
+        private String lastNext = "";
+
+        private TrieIterator() {
+            if (root != null) {
+                pushToStack(root, "");
+            }
+        }
+
+        private void pushToStack(Node node, String string) {
+            if (!node.children.isEmpty()) {
+                for (Map.Entry<Character, Node> entry : node.children.entrySet()) {
+                    char key = entry.getKey();
+                    Node value = entry.getValue();
+                    if (key == 0) {
+                        stack.push(string);
+                    }
+                    else {
+                        pushToStack(value, string + key);
+                    }
+                }
+            }
+        }
+
+        /**
+         *  Время : O(1)
+         *  Память : O(1)
+         */
+        @Override
+        public boolean hasNext() {
+            return !stack.isEmpty();
+        }
+
+        /**
+         *  Время : O(1)
+         *  Память : O(1)
+         */
+        @Override
+        public String next() {
+            if (stack.isEmpty()) {
+                throw new IllegalStateException();
+            }
+            lastNext = stack.pop();
+            return lastNext;
+        }
+
+        /**
+         *  Время : O(log(n))
+         *  Спросить про офрмление и отступы
+         *  Про ресурсоёмкость
+         *  Про проект
+         */
+        @Override
+        public void remove() {
+            if (!lastNext.equals("")){
+                Trie.this.remove(lastNext);
+            } else {
+                throw new IllegalStateException();
+            }
+            lastNext = "";
+        }
     }
 
 }
