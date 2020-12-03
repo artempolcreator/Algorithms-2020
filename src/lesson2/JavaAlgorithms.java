@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @SuppressWarnings("unused")
 public class JavaAlgorithms {
@@ -43,7 +44,7 @@ public class JavaAlgorithms {
 
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(inputName))) {
 
-            ArrayList<Integer> array = new ArrayList<>();
+            List<Integer> array = new ArrayList<>();
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 array.add(Integer.parseInt(line));
