@@ -17,9 +17,36 @@ public class JavaDynamicTasks {
      * Если общей подпоследовательности нет, вернуть пустую строку.
      * Если есть несколько самых длинных общих подпоследовательностей, вернуть любую из них.
      * При сравнении подстрок, регистр символов *имеет* значение.
+     *
+     * Время: O(n*m)
+     * Память: S(n*m)
+     *
      */
     public static String longestCommonSubSequence(String first, String second) {
-        throw new NotImplementedError();
+        int[][] matrix = new int[first.length() + 1][second.length() + 1];
+
+        for (int i = 1; i < first.length(); i++) {
+            for (int j = 1; j < second.length(); j++) {
+                if (first.charAt(i) == second.charAt(j)) {
+                    matrix[i + 1][j + 1] = matrix[i][j] + 1;
+                } else matrix[i + 1][j + 1] = Math.max(matrix[i + 1][j], matrix[i][j + 1]);
+            }
+        }
+
+        String result = "";
+        int n = first.length();
+        int k = second.length();
+        while (n > 0 && k > 0) {
+            if (first.charAt(n - 1) == second.charAt(k - 1)) {
+                result = first.charAt(n - 1) + result;
+                n--;
+                k--;
+            } else if (matrix[n][k] == matrix[n - 1][k]) {
+                n--;
+            } else k--;
+        }
+        return result;
+
     }
 
     /**

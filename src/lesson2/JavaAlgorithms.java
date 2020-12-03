@@ -133,7 +133,7 @@ public class JavaAlgorithms {
      * вернуть ту из них, которая встречается раньше в строке first.
      *
      * Время: O(n*m)
-     * Память: S(min(n, m))
+     * Память: S(n*m)
      */
     static public String longestCommonSubstring(String first, String second) {
         int[][] matrix = new int[first.length()][second.length()];
