@@ -186,26 +186,29 @@ public class JavaTasks {
      * 99.5
      * 121.3
      *
-     * Время: O(n*Log(n))
+     * Время: O(Log(n)) - сложность вставки и поиска в TreeMap
      * Память: S(n)
      *
      */
     static public void sortTemperatures(String inputName, String outputName) throws IOException {
 
+        Map<Double, Integer> sortedTemps = new TreeMap<>();
+
         try(BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(inputName), "UTF-8"));
             BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputName), "UTF-8"))) {
 
             String line;
-            ArrayList<Double> arrayList = new ArrayList<>();
             while ((line = bufferedReader.readLine()) != null) {
-                arrayList.add(Double.parseDouble(line));
+                Double key = Double.parseDouble(line);
+                sortedTemps.putIfAbsent(key, 0);
+                sortedTemps.put(key, sortedTemps.get(key) + 1);
             }
 
-            Collections.sort(arrayList);
-
-            for (Double number: arrayList) {
-                bufferedWriter.write(number.toString());
-                bufferedWriter.newLine();
+            for (Map.Entry<Double, Integer> entry : sortedTemps.entrySet()) {
+                for (int i = 0; i < entry.getValue(); i++) {
+                    bufferedWriter.write(entry.getKey().toString());
+                    bufferedWriter.newLine();
+                }
             }
         }
     }
