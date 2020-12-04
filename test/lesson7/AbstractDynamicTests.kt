@@ -10,7 +10,7 @@ abstract class AbstractDynamicTests {
         assertEquals("здс", longestCommonSubSequence("здравствуй мир", "мы здесь"))
         assertEquals("emt ole", longestCommonSubSequence("nematode knowledge", "empty bottle"))
 
-//      Тесты
+//      Tests
         assertEquals("", longestCommonSubSequence("", ""))
         assertEquals("", longestCommonSubSequence("Hello", "мир"))
         assertEquals("", longestCommonSubSequence("ДЖАВА", "джава"))
@@ -49,6 +49,30 @@ abstract class AbstractDynamicTests {
         assertEquals(listOf(1), longestIncreasingSubSequence(listOf(1)))
         assertEquals(listOf(1, 2), longestIncreasingSubSequence(listOf(1, 2)))
         assertEquals(listOf(2), longestIncreasingSubSequence(listOf(2, 1)))
+
+//      Tests ↓
+        assertEquals(
+            listOf(6, 11, 13, 25),
+            longestIncreasingSubSequence(listOf(6, 11, 6, 13, 3, 25, 7, 8))
+        )
+
+        assertEquals(
+            listOf(5, 10, 15, 20, 25),
+            longestIncreasingSubSequence(listOf(5, 10, 90, 15, 1, 20, 8, 25))
+        )
+
+        assertEquals(
+            listOf(14, 34, 35, 54, 87, 98, 101, 106, 1000),
+            longestIncreasingSubSequence(
+                listOf(
+                    63, 758, 34, 36, 14, 89, 34, 106, 935, 35, 1, 54, 11, 87, 665, 34, 39, 98, 101,
+                    85, 4, 87, 106, 100, 0, 67, 1000
+                )
+            )
+        )
+
+
+
         assertEquals(
             listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
             longestIncreasingSubSequence(listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10))

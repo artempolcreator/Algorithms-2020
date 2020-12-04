@@ -2,6 +2,8 @@ package lesson7;
 
 import kotlin.NotImplementedError;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @SuppressWarnings("unused")
@@ -33,19 +35,20 @@ public class JavaDynamicTasks {
             }
         }
 
-        String result = "";
+        StringBuilder finalStr = new StringBuilder();
         int n = first.length();
         int k = second.length();
         while (n > 0 && k > 0) {
             if (first.charAt(n - 1) == second.charAt(k - 1)) {
-                result = first.charAt(n - 1) + result;
+                finalStr.insert(0, first.charAt(n - 1));
                 n--;
                 k--;
             } else if (matrix[n][k] == matrix[n - 1][k]) {
                 n--;
             } else k--;
         }
-        return result;
+
+        return finalStr.toString();
 
     }
 
@@ -60,9 +63,45 @@ public class JavaDynamicTasks {
      * Если самых длинных возрастающих подпоследовательностей несколько (как в примере),
      * то вернуть ту, в которой числа расположены раньше (приоритет имеют первые числа).
      * В примере ответами являются 2, 8, 9, 12 или 2, 5, 9, 12 -- выбираем первую из них.
+     *
+     * Время: O(n^2)
+     * Память: S(n^2)
+     *
      */
     public static List<Integer> longestIncreasingSubSequence(List<Integer> list) {
-        throw new NotImplementedError();
+        int seqSize = list.size();
+        if (seqSize <= 1) return list;
+
+        int[] maxSize = new int[seqSize];
+        int[] result = new int[seqSize];
+
+        for (int i = 0; i < seqSize; i++) {
+            maxSize[i] = 1;
+            result[i] = -1;
+            for (int j = 0; j < seqSize; j++) {
+                if (list.get(j) < list.get(i) && maxSize[j] + 1 > maxSize[i]) {
+                    maxSize[i] = maxSize[j] + 1;
+                    result[i] = j;
+                }
+            }
+        }
+
+        int index = 0;
+        int length = maxSize[0];
+        for (int i = 0; i < seqSize; i++) {
+            if (maxSize[i] > length) {
+                index = i;
+                length = maxSize[i];
+            }
+        }
+
+        List<Integer> finalSeq = new ArrayList<>();
+        while (index != -1) {
+            finalSeq.add(0, list.get(index));
+            index = result[index];
+        }
+
+        return finalSeq;
     }
 
     /**

@@ -186,7 +186,7 @@ public class JavaTasks {
      * 99.5
      * 121.3
      *
-     * Время: O(Log(n)) - сложность вставки и поиска в TreeMap
+     * Время: O(n*Log(n))
      * Память: S(n)
      *
      */
