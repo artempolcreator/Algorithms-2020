@@ -4,6 +4,7 @@ import kotlin.NotImplementedError;
 
 import java.util.List;
 import java.util.Set;
+import java.util.Stack;
 
 @SuppressWarnings("unused")
 public class JavaGraphTasks {
@@ -118,9 +119,42 @@ public class JavaGraphTasks {
      * J ------------ K
      *
      * Ответ: A, E, J, K, D, C, H, G, B, F, I
+     *
+     * Время: O(n!)
+     * Память: S(n!)
+     *
      */
     public static Path longestSimplePath(Graph graph) {
-        throw new NotImplementedError();
+        Set<Graph.Vertex> vertexSet = graph.getVertices();
+        Stack<Path> paths = new Stack<>();
+        Path longestPath = new Path();
+        int lengthOfLongest = 0;
+
+        if (vertexSet.isEmpty()) {
+            return longestPath;
+        }
+
+        for (Graph.Vertex vertex: vertexSet) {
+            paths.push(new Path(vertex));
+        }
+
+        while(!paths.isEmpty()) {
+            Path curPath = paths.pop();
+            if (curPath.getLength() > lengthOfLongest) {
+                longestPath = curPath;
+                lengthOfLongest = longestPath.getLength();
+            }
+
+            Set<Graph.Vertex> neighbours = graph.getNeighbors(curPath.getVertices().get(curPath.getLength()));
+
+            for (Graph.Vertex neighbour : neighbours) {
+                if(!curPath.contains(neighbour)) {
+                    paths.push(new Path(curPath, graph, neighbour));
+                }
+            }
+        }
+
+        return longestPath;
     }
 
 
