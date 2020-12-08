@@ -65,7 +65,7 @@ public class JavaGraphTasks {
      * |
      * J ------------ K
      *
-     *  Решение из лекции по Островным деревьям: https://www.youtube.com/watch?v=aKSyWOwl9cQ&t=1489s
+     *  Решение из лекции по Остовным деревьям: https://www.youtube.com/watch?v=aKSyWOwl9cQ&t=1489s
      *  Время: O(v + e)
      *  Память: S(v + e)
      *
