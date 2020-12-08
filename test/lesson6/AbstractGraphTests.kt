@@ -183,6 +183,37 @@ abstract class AbstractGraphTests {
         assertEquals(4, tree3.findBridges().size)
 
         //      Test
+        //
+        //    A1--A2--A3
+        //    |\  |  /|
+        //    |   B1  |
+        //    |/  |  \|
+        //    C1--C2--C3
+
+        val graph4 = GraphBuilder().apply {
+            val a1 = addVertex("A1")
+            val a2 = addVertex("A2")
+            val a3 = addVertex("A3")
+            val b1 = addVertex("B1")
+            val c1 = addVertex("C1")
+            val c2 = addVertex("C2")
+            val c3 = addVertex("C3")
+            addConnection(a1, a2)
+            addConnection(a2, a3)
+            addConnection(a1, c1)
+            addConnection(a3, c3)
+            addConnection(c1, c2)
+            addConnection(c2, c3)
+            addConnection(b1, a1)
+            addConnection(b1, a2)
+            addConnection(b1, a3)
+            addConnection(b1, c1)
+            addConnection(b1, c2)
+            addConnection(b1, c3)
+        }.build()
+        val tree4 = graph4.minimumSpanningTree()
+        assertEquals(6, tree4.edges.size)
+        assertEquals(6, tree4.findBridges().size)
     }
 
 
