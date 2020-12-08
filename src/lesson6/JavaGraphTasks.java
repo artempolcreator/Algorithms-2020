@@ -1,10 +1,9 @@
 package lesson6;
 
 import kotlin.NotImplementedError;
+import lesson6.impl.GraphBuilder;
 
-import java.util.List;
-import java.util.Set;
-import java.util.Stack;
+import java.util.*;
 
 @SuppressWarnings("unused")
 public class JavaGraphTasks {
@@ -65,10 +64,39 @@ public class JavaGraphTasks {
      * E    F    I
      * |
      * J ------------ K
+     *
+     *  Решение из лекции по Островным деревьям: https://www.youtube.com/watch?v=aKSyWOwl9cQ&t=1489s
+     *  Время: O(v + e)
+     *  Память: S(v + e)
+     *
      */
     public static Graph minimumSpanningTree(Graph graph) {
-        throw new NotImplementedError();
+        GraphBuilder minSpanTree = new GraphBuilder();
+
+        if (graph.getEdges().isEmpty()) return minSpanTree.build();
+
+        Set<Graph.Vertex> vertexes = new HashSet<>();
+
+        Queue<Graph.Vertex> remainVertexes = new ArrayDeque<>();
+        remainVertexes.add(graph.getVertices().iterator().next());
+        vertexes.add(remainVertexes.peek());
+
+        Graph.Vertex curPosition;
+        while (!remainVertexes.isEmpty()) {
+            curPosition = remainVertexes.remove();
+            for (Graph.Vertex vertex : graph.getNeighbors(curPosition)) {
+                if (!vertexes.contains(vertex)) {
+                    remainVertexes.add(vertex);
+                    minSpanTree.addVertex(curPosition.toString());
+                    minSpanTree.addVertex(vertex.toString());
+                    minSpanTree.addConnection(curPosition, vertex, 1);
+                    vertexes.add(vertex);
+                }
+            }
+        }
+        return minSpanTree.build();
     }
+
 
     /**
      * Максимальное независимое множество вершин в графе без циклов.
