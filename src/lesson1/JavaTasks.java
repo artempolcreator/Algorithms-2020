@@ -192,25 +192,60 @@ public class JavaTasks {
      */
     static public void sortTemperatures(String inputName, String outputName) throws IOException {
 
-        Map<Double, Integer> sortedTemps = new TreeMap<>();
+        List<Double> temps = new ArrayList<>();
 
         try(BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(inputName), "UTF-8"));
             BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputName), "UTF-8"))) {
 
             String line;
             while ((line = bufferedReader.readLine()) != null) {
-                Double key = Double.parseDouble(line);
-                sortedTemps.putIfAbsent(key, 0);
-                sortedTemps.put(key, sortedTemps.get(key) + 1);
+                Double temp = Double.parseDouble(line);
+                temps.add(temp);
             }
 
-            for (Map.Entry<Double, Integer> entry : sortedTemps.entrySet()) {
-                for (int i = 0; i < entry.getValue(); i++) {
-                    bufferedWriter.write(entry.getKey().toString());
-                    bufferedWriter.newLine();
-                }
+            Double[] arr = temps.toArray(new Double[0]);
+            quickSort(arr);
+
+            for (Double number: arr) {
+                bufferedWriter.write(Double.toString((number)));
+                bufferedWriter.newLine();
             }
         }
+    }
+
+    private static final Random random = new Random(Calendar.getInstance().getTimeInMillis());
+
+    private static int partition(Double[] elements, int min, int max) {
+        Double x = elements[min + random.nextInt(max - min + 1)];
+        int left = min, right = max;
+        while (left <= right) {
+            while (elements[left] < x) {
+                left++;
+            }
+            while (elements[right] > x) {
+                right--;
+            }
+            if (left <= right) {
+                Double temp = elements[left];
+                elements[left] = elements[right];
+                elements[right] = temp;
+                left++;
+                right--;
+            }
+        }
+        return right;
+    }
+
+    private static void quickSort(Double[] elements, int min, int max) {
+        if (min < max) {
+            int border = partition(elements, min, max);
+            quickSort(elements, min, border);
+            quickSort(elements, border + 1, max);
+        }
+    }
+
+    public static void quickSort(Double[] elements) {
+        quickSort(elements, 0, elements.length - 1);
     }
 
 
